@@ -6,7 +6,7 @@ public class Photo {
 
 	public Photo(String path, linkedlist<String> tags) {
 		this.path = path;
-		this.tags = new linkedlist<String>();
+		this.tags = tags;
 	}
 
 	public String getPath() {
