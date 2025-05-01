@@ -45,26 +45,28 @@ public class Album2 {
 		conditionSplited.findFirst();
 		while(!conditionSplited.last()) {
 			if(CBst.findkey(conditionSplited.retrieve())) {
+				counterCondition++;
 				CBst.current.data.findFirst();
 				while(!CBst.current.data.last()){
 					
-					counterCondition++;
 					tmp.insert(CBst.current.data.retrieve());
 					
 					CBst.current.data.findNext();
 				}
+				tmp.insert(CBst.current.data.retrieve());
 			}
 			conditionSplited.findNext();
 		}
 		if(CBst.findkey(conditionSplited.retrieve())) {
+			counterCondition++;
 			CBst.current.data.findFirst();
 			while(!CBst.current.data.last()){
 				
-					counterCondition++;
 					tmp.insert(CBst.current.data.retrieve());
 				
 				CBst.current.data.findNext();
 			}
+			tmp.insert(CBst.current.data.retrieve());
 		}
 		
 		return delDup(tmp);
@@ -84,7 +86,6 @@ public class Album2 {
 			String Path = copy.retrieve().getPath();
 			uniqeList.insert(copy.retrieve());
 			
-			copy.findFirst();
 			while(!copy.last()) {
 				if(copy.retrieve().getPath().equalsIgnoreCase(Path))
 					copy.remove();
