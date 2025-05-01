@@ -1,18 +1,18 @@
 package project;
 
 class BSTNode<T> {
-	public int key;
-	public T data;
+	public String key;//animal(key) ---> node(linkedlist(bear.jpg, raccoon.jbg))
+	public T data;  
 	public BSTNode<T> left, right;
 
 	/** Creates a new instance of BSTNode */
-	public BSTNode(int k, T val) {
+	public BSTNode(String k, T val) {
 		key = k;
 		data = val;
 		left = right = null;
 	}
 
-	public BSTNode(int k, T val, BSTNode<T> l, BSTNode<T> r) {
+	public BSTNode(String k, T val, BSTNode<T> l, BSTNode<T> r) {
 		key = k;
 		data = val;
 		left = l;
@@ -40,7 +40,7 @@ public class BST<T> {
 		return current.data;
 	}
 
-	public boolean findkey(int tkey) {
+	public boolean findkey(String tkey) {
 		BSTNode<T> p = root, q = root;
 
 		if (empty())
@@ -48,10 +48,11 @@ public class BST<T> {
 
 		while (p != null) {
 			q = p;
-			if (p.key == tkey) {
+			int cmp = tkey.compareTo(p.key);
+			if (cmp == 0) {
 				current = p;
 				return true;
-			} else if (tkey < p.key)
+			} else if (cmp < 0)
 				p = p.left;
 			else
 				p = p.right;
@@ -60,8 +61,8 @@ public class BST<T> {
 		current = q;
 		return false;
 	}
-
-	public boolean insert(int k, T val) {
+	
+	public boolean insert(String k, T val) {
 		BSTNode<T> p, q = current;
 
 		if (findkey(k)) {
@@ -74,8 +75,8 @@ public class BST<T> {
 			root = current = p;
 			return true;
 		} else {
-
-			if (k < current.key)
+			int cmp = k.compareTo(current.key);
+			if (cmp < 0)
 				current.left = p;
 			else
 				current.right = p;
@@ -83,5 +84,48 @@ public class BST<T> {
 			return true;
 		}
 	}
+	
+	public boolean remove_key(String tkey) {
+		BooleanWrapper removed = new BooleanWrapper(false);
+		BSTNode<T> p = remove_aux(tkey, root, removed);
+		current = root = p;
+		return removed.getWrapper();
+	}
 
+	private BSTNode<T> remove_aux(String key, BSTNode<T> p, BooleanWrapper flag) {
+		BSTNode<T> q, child = null;
+		if (p == null)
+			return null;
+		int cmp = key.compareTo(p.key);
+		if (cmp < 0)
+			p.left = remove_aux(key, p.left, flag); // go left
+		else if (cmp > 0)
+			p.right = remove_aux(key, p.right, flag); // go right
+		else { // key is found
+			flag.setWrapper(false);
+			if (p.left != null && p.right != null) { // two children
+				q = find_min(p.right);
+				p.key = q.key;
+				p.data = q.data;
+				p.right = remove_aux(q.key, p.right, flag);
+			} else {
+				if (p.right == null) // one child
+					child = p.left;
+				else if (p.left == null) // one child
+					child = p.right;
+				return child;
+			}
+		}
+		return p;
+	}
+
+	private BSTNode<T> find_min(BSTNode<T> p) {
+		if (p == null)
+			return null;
+
+		while (p.left != null)
+			p = p.left;
+
+		return p;
+	}
 }
