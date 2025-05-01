@@ -21,7 +21,7 @@ public class Test {
 		// You can write a method that prints the list of tags of photo1.
 		
 		//class photoManager
-		System.out.print("the all the photos: ");
+		System.out.print("all the photos: ");
 		printPhotoManagere(manager.getPhotos());
 		Photo photo4 = new Photo("raccoon.jpg", toTagsLinkedList("animal, raccoon, log,snow"));
 		manager.addPhoto(photo4);
