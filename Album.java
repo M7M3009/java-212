@@ -22,9 +22,9 @@ public class Album {
 		return condition;
 	}
 
-	private linkedlist<String> splitCondition() {// split the codition
+	private linkedlist<String> splitCondition() {
 		linkedlist<String> tmpS = new linkedlist<String>();
-		String S[] = condition.split("AND");
+		String S[] = condition.split("\\s*AND\\s*");
 		for (int i = 0; i < S.length; i++) {
 			tmpS.insert(S[i]);
 		}
@@ -34,124 +34,135 @@ public class Album {
 	public PhotoManager getManager() {
 		return manager;
 	}
+	
+
 
 	public linkedlist<Photo> getPhotos() {
 		linkedlist<Photo> tmp = new linkedlist<Photo>();
 		linkedlist<Photo> photos = manager.getPhotos();
 		linkedlist<String> conditionSplited = splitCondition();
-		counterCondition=0;
-		
-		if (manager.getPhotos().empty())
+
+		if (photos.empty())
 			return tmp;
-		
+		if(conditionSplited.empty())
+			return photos;
 		photos.findFirst();
 		while (!photos.last()) {
 			
 			linkedlist<String> Ptags = photos.retrieve().getTags();
 			conditionSplited.findFirst();
-			boolean dup=false;//checks for duplication
+			boolean dup = false;// checks for duplication
 			
-			while(!conditionSplited.last()) {
-				
-				Ptags.findFirst();
-				while(!Ptags.last()) {
-					
-					if(conditionSplited.retrieve().equals(Ptags.retrieve())) {
-						if(!dup) {
+				while (!conditionSplited.last()) {
+
+					Ptags.findFirst();
+					while (!Ptags.last()) {
+
+						if (conditionSplited.retrieve().equalsIgnoreCase(Ptags.retrieve())) {
 							counterCondition++;
-							tmp.insert(photos.retrieve());
-							dup=true;
+							if (!dup) {
+								tmp.insert(photos.retrieve());
+								dup = true;
+							}
 						}
+						Ptags.findNext();
+					}
+					// check last tag
+					if (conditionSplited.retrieve().equalsIgnoreCase(Ptags.retrieve())) {
+						counterCondition++;
+						if (!dup) {
+							tmp.insert(photos.retrieve());
+							dup = true;
+						}
+					}
+					conditionSplited.findNext();
+				}
+				// check last condition
+				Ptags.findFirst();
+				while (!Ptags.last()) {
+					if (conditionSplited.retrieve().equalsIgnoreCase(Ptags.retrieve())) {
+						counterCondition++;
+						if (!dup) {// check duplication
+							tmp.insert(photos.retrieve());
+							dup = true;
+						}
+					
 					}
 					Ptags.findNext();
 				}
-				//check last tag
-				if(conditionSplited.retrieve().equals(Ptags.retrieve())) {
-					if(!dup) {
-						counterCondition++;
-						tmp.insert(photos.retrieve());
-						dup=true;
-					}
-				}
-				conditionSplited.findNext();
-			}
-			//check last condition 
-			Ptags.findFirst();
-			while(!Ptags.last()) {
-				if(conditionSplited.retrieve().equals(Ptags.retrieve())) {
-					if(!dup) {//check duplication
-						counterCondition++;
-						tmp.insert(photos.retrieve());
-						dup=true;
-					}
-					
-				}
-				
-			}
-			if(conditionSplited.retrieve().equals(Ptags.retrieve())) {
-				if(!dup) {
+				if (conditionSplited.retrieve().equalsIgnoreCase(Ptags.retrieve())) {
 					counterCondition++;
-					tmp.insert(photos.retrieve());
-					dup=true;
+					if (!dup) {
+						tmp.insert(photos.retrieve());
+						dup = true;
+					}
 				}
-			}
+			
 			photos.findNext();
 		}
-		//check last photo
-		linkedlist<String> Ptags = photos.retrieve().getTags();
-		conditionSplited.findFirst();
-		boolean dup=false;//checks for duplication
+		// check last photo
 		
-		while(!conditionSplited.last()) {
+
+			linkedlist<String> Ptags2 = photos.retrieve().getTags();
+			conditionSplited.findFirst();
+			boolean dup2 = false;// checks for duplication
 			
-			Ptags.findFirst();
-			while(!Ptags.last()) {
-				
-				if(conditionSplited.retrieve().equals(Ptags.retrieve())) {
-					if(!dup) {
-						counterCondition++;
-						tmp.insert(photos.retrieve());
-						dup=true;
+				while (!conditionSplited.last()) {
+
+					Ptags2.findFirst();
+					while (!Ptags2.last()) {
+
+						if (conditionSplited.retrieve().equalsIgnoreCase(Ptags2.retrieve())) {
+							counterCondition++;
+							if (!dup2) {
+								tmp.insert(photos.retrieve());
+								dup2 = true;
+							}
+						}
+						Ptags2.findNext();
 					}
+					// check last tag
+					if (conditionSplited.retrieve().equalsIgnoreCase(Ptags2.retrieve())) {
+						counterCondition++;
+						if (!dup2) {
+							tmp.insert(photos.retrieve());
+							dup2 = true;
+						}
+					}
+					conditionSplited.findNext();
 				}
-				Ptags.findNext();
-			}
-			if(conditionSplited.retrieve().equals(Ptags.retrieve())) {
-				if(!dup) {
+				// check last condition
+				Ptags2.findFirst();
+				while (!Ptags2.last()) {
+					if (conditionSplited.retrieve().equalsIgnoreCase(Ptags2.retrieve())) {
+						counterCondition++;
+						if (!dup2) {// check duplication
+							tmp.insert(photos.retrieve());
+							dup2 = true;
+						}
+						
+					}
+					Ptags2.findNext();
+				}
+				if (conditionSplited.retrieve().equalsIgnoreCase(Ptags2.retrieve())) {
 					counterCondition++;
-					tmp.insert(photos.retrieve());
-					dup=true;
-				}
-			}
-			conditionSplited.findNext();
-		}
-		Ptags.findFirst();
-		while(!Ptags.last()) {
-			if(conditionSplited.retrieve().equals(Ptags.retrieve())) {
-				if(!dup) {
-					counterCondition++;
-					tmp.insert(photos.retrieve());
-					dup=true;
-				}
+					if (!dup2) {
+						tmp.insert(photos.retrieve());
+						dup2 = true;
+					}
+				  }
 				
-			}
 			
-		}
-		if(conditionSplited.retrieve().equals(Ptags.retrieve())) {
-			if(!dup) {
-				counterCondition++;
-				tmp.insert(photos.retrieve());
-				dup=true;
-			}
-		}
 			
 		return tmp;
 	}
+	
+	
+	
+	
 
 	public int getNbComps() {
 		return counterCondition;
 	}
-	
-	
 
 }
