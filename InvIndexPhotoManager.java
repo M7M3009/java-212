@@ -17,21 +17,22 @@ public class InvIndexPhotoManager {
 		if (bstInverted.empty()) {
 			int nodeNumber = 0;
 			linkedlist<String> tagsP = p.getTags();
+			
 			tagsP.findFirst();
-			while (!tagsP.empty()) {
+			while (!tagsP.last()) {
 				nodeNumber++;
 				tagsP.findNext();
 			}
 			nodeNumber++;
-			tagsP.findNext();
+			tagsP.findFirst();
 			if (nodeNumber % 2 == 1) {
-				for (int i = 0; i < nodeNumber + 1; i++) {
+				for (int i = 0; i < nodeNumber/2; i++) {
 					tagsP.findNext();
 				}
 				bstInverted.insert(tagsP.retrieve(), new linkedlist<Photo>());
-				bstInverted.root.data.insert(p);
+				
 			} else {
-				for (int i = 0; i < nodeNumber; i++) {
+				for (int i = 0; i < nodeNumber/2; i++) {
 					tagsP.findNext();
 				}
 				bstInverted.insert(tagsP.retrieve(), new linkedlist<Photo>());
@@ -40,20 +41,26 @@ public class InvIndexPhotoManager {
 			if (tagsP.empty())
 				return;
 			tagsP.findFirst();
-			while (true) {
+			
+			while (!tagsP.last()) {
 				if (bstInverted.findkey(tagsP.retrieve())) {
 					bstInverted.current.data.insert(p);
 				} else {
 					bstInverted.insert(tagsP.retrieve(), new linkedlist<Photo>());
 					bstInverted.current.data.insert(p);
 				}
-				if (tagsP.last())
-					break;
+				
 				tagsP.findNext();
 			}
+			if (bstInverted.findkey(tagsP.retrieve())) {
+				bstInverted.current.data.insert(p);
+			} else {
+				bstInverted.insert(tagsP.retrieve(), new linkedlist<Photo>());
+				bstInverted.current.data.insert(p);
+			}
 		} else {
-			linkedlist<String> tags = new linkedlist<String>();
-
+			linkedlist<String> tags = p.getTags();
+			tags.findFirst();
 			while (!tags.last()) {
 				if (bstInverted.findkey(tags.retrieve())) {
 					bstInverted.current.data.insert(p);
