@@ -35,11 +35,12 @@ public class Test {
 		System.out.println("Get album2 name, condition, and photos:");
 		System.out.println("album2 name: " + album2.getName());
 		System.out.println("album2 condition: " + album2.getCondition());
-		// You can get the list of photos in album2 by calling album2.getPhotos().
-		// You can write a method that prints the list of photos in album2.
-		System.out.println("album2:");
-		printAllTags(album2.getPhotos().retrieve().getTags());
-		System.out.println("Delete the photo ’bear.jpg’:");
+		System.out.print("album2 photos: ");
+		printPhotoManagere(album2.getPhotos());
+		System.out.print("Delete the photo ’bear.jpg’: ");
+		album2.getManager().deletePhoto("bear.jpg");
+		printPhotoManagere(album2.getPhotos());
+		System.out.println("the number of comparision: " + album2.getNbComps());
 		
 		
 	}
@@ -64,6 +65,11 @@ public class Test {
 	}
 	
 	private  static void printPhotoManagere(linkedlist<Photo> list ) {
+		if(list.empty()) {
+			System.out.print("list is empty");
+			System.out.println("");
+			return;
+		}
 		list.findFirst();
 		while(!list.last()) {
 			System.out.print(list.retrieve().getPath()+" , ");
