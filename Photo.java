@@ -3,10 +3,17 @@ package project;
 public class Photo {
 	private String path;
 	private linkedlist<String> tags;
-
+	
+	
 	public Photo(String path, linkedlist<String> tags) {
 		this.path = path;
-		this.tags = tags;
+		this.tags = new linkedlist<String>();
+		tags.findFirst();
+		while(!tags.last()) {
+			this.tags.insert(tags.retrieve());
+			tags.findNext();
+		}
+		this.tags.insert(tags.retrieve());
 	}
 
 	public String getPath() {
@@ -16,5 +23,10 @@ public class Photo {
 	public linkedlist<String> getTags() {
 		return tags;
 	}
+
+	
+	
+	
+	
 
 }
