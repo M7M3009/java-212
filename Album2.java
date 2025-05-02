@@ -25,6 +25,8 @@ public class Album2 {
 
 	private linkedlist<String> splitCondition() {
 		linkedlist<String> tmpS = new linkedlist<String>();
+		if(condition==null) return tmpS;
+		if(condition.equals("")) return tmpS;
 		String S[] = condition.split("\\s*AND\\s*");
 		for (int i = 0; i < S.length; i++) {
 			tmpS.insert(S[i]);
@@ -41,6 +43,12 @@ public class Album2 {
 		BST<linkedlist<Photo>> CBst = manager.getPhoto();
 		linkedlist<String> conditionSplited = splitCondition();
 		linkedlist<Photo> tmp = new linkedlist<Photo>();
+		if(conditionSplited.empty()) {
+			allBSTnodes(CBst.root, tmp);
+			
+			return delDup(tmp);
+		}
+			
 		counterCondition=0;
 		conditionSplited.findFirst();
 		while(!conditionSplited.last()) {
@@ -100,7 +108,17 @@ public class Album2 {
 		return uniqeList;
 	}
 	
-	
+	private void allBSTnodes(BSTNode<linkedlist<Photo>> n, linkedlist<Photo> tmp){
+		if (n==null) return;
+		allBSTnodes(n.left, tmp);
+		allBSTnodes(n.right, tmp);
+		n.data.findFirst();
+		while(!n.data.last()) {
+			tmp.insert(n.data.retrieve());
+			n.data.findNext();
+		}
+		tmp.insert(n.data.retrieve());
+	}
 	
 
 }
