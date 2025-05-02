@@ -1,6 +1,6 @@
 
 public class PhotoManager {
-	LinkedList<Photo> list;
+	private LinkedList<Photo> list;
 	// Constructor
 	public PhotoManager() {
 		list =new LinkedList<Photo>();
@@ -19,7 +19,7 @@ public class PhotoManager {
 		//requires non empty list + photo path exists.  
 		list.findFirst();
 		while(!list.last()) {
-			if(list.retrieve().equals(path)) {
+			if(list.retrieve().getPath().equals(path)) {
 				list.remove();
 				return;
 			}

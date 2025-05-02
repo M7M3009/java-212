@@ -1,12 +1,12 @@
 
 public class Photo {
-	String path;
-	LinkedList<String>tags;
+	private String path;
+	private LinkedList<String>tags;
 	
 	// Constructor
 	public Photo(String path, LinkedList<String> tags) {
 	this.path=path;
-	this.tags=new LinkedList<String>();
+	this.tags=tags;
 	}
 	// Return the full file name (the path) of the photo. A photo is uniquely identified by
 	//its path.
