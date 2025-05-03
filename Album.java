@@ -1,3 +1,5 @@
+package project;
+
 public class Album {
 	private String name;
 	private String condition;// bear AND GRASS
@@ -31,7 +33,7 @@ public class Album {
 		return arr;
 	}
 
-	private boolean SatisfyCond(LinkedList<String> taglist) {
+	private boolean SatisfyCond(linkedlist<String> taglist) {
 		// arr for Condition set
 		String arr[] = SplitCond();
 		int k = arr.length;
@@ -58,13 +60,13 @@ public class Album {
 	}
 
 	// Return all photos that satisfy the album condition
-	public LinkedList<Photo> getPhotos() {
+	public linkedlist<Photo> getPhotos() {
 		// Manager List
-		LinkedList<Photo> Mlist = manager.getPhotos();
+		linkedlist<Photo> Mlist = manager.getPhotos();
 		// temp List (returned in the end)
-		LinkedList<Photo> tlist = new LinkedList<Photo>();
+		linkedlist<Photo> tlist = new linkedlist<Photo>();
 		Mlist.findFirst();
-		LinkedList<String> taglist = Mlist.retrieve().getTags();
+		linkedlist<String> taglist = Mlist.retrieve().getTags();
 		taglist.findFirst();
 		if (condition.isEmpty()) {
 			return Mlist;
