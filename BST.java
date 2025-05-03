@@ -1,25 +1,5 @@
 package project;
 
-class BSTNode<T> {
-	public int key;
-	public T data;
-	public BSTNode<T> left, right;
-
-	/** Creates a new instance of BSTNode */
-	public BSTNode(int k, T val) {
-		key = k;
-		data = val;
-		left = right = null;
-	}
-
-	public BSTNode(int k, T val, BSTNode<T> l, BSTNode<T> r) {
-		key = k;
-		data = val;
-		left = l;
-		right = r;
-	}
-}
-
 public class BST<T> {
 	BSTNode<T> root, current;
 
@@ -40,7 +20,7 @@ public class BST<T> {
 		return current.data;
 	}
 
-	public boolean findkey(int tkey) {
+	public boolean findkey(String tkey) {
 		BSTNode<T> p = root, q = root;
 
 		if (empty())
@@ -48,10 +28,10 @@ public class BST<T> {
 
 		while (p != null) {
 			q = p;
-			if (p.key == tkey) {
+			if (p.key .equals(tkey) ) {
 				current = p;
 				return true;
-			} else if (tkey < p.key)
+			} else if (tkey.charAt(0) < p.key.charAt(0))
 				p = p.left;
 			else
 				p = p.right;
@@ -61,7 +41,7 @@ public class BST<T> {
 		return false;
 	}
 
-	public boolean insert(int k, T val) {
+	public boolean insert(String k, T val) {
 		BSTNode<T> p, q = current;
 
 		if (findkey(k)) {
@@ -75,7 +55,7 @@ public class BST<T> {
 			return true;
 		} else {
 
-			if (k < current.key)
+			if (k.charAt(0) < current.key.charAt(0))
 				current.left = p;
 			else
 				current.right = p;
