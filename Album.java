@@ -61,7 +61,7 @@ public class Album {
 
 	// Return all photos that satisfy the album condition
 	public linkedlist<Photo> getPhotos() {
-		// Manager List
+		CompNum=0;
 		linkedlist<Photo> Mlist = manager.getPhotos();
 		// temp List (returned in the end)
 		linkedlist<Photo> tlist = new linkedlist<Photo>();
