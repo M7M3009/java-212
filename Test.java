@@ -11,17 +11,38 @@ public class Test {
 		manager.addPhoto(photo3);
 		Album album1 = new Album("Album1", "bear", manager);
 		Album album2 = new Album("Album2", "animal AND grass", manager);
+		
+		// class Photo
 		System.out.println("Get photo1 path and tags:");
 		System.out.println("photo1 path: " + photo1.getPath());
+		System.out.print("photo1 tags:  ");
+		printAllTags(photo1.getTags());
 		// You can get the list of tags of photo1 by calling photo1.getTags().
 		// You can write a method that prints the list of tags of photo1.
+		
+		//class photoManager
+		System.out.print("all the photos: ");
+		printPhotoManagere(manager.getPhotos());
+		Photo photo4 = new Photo("raccoon.jpg", toTagsLinkedList("animal, raccoon, log,snow"));
+		manager.addPhoto(photo4);
+		System.out.print("after the new Photo added: ");
+		printPhotoManagere(manager.getPhotos());
+		manager.deletePhoto("raccoon.jpg");
+		System.out.print("after the deletion: ");
+		printPhotoManagere(manager.getPhotos());
+		
+		//album
 		System.out.println("Get album2 name, condition, and photos:");
 		System.out.println("album2 name: " + album2.getName());
 		System.out.println("album2 condition: " + album2.getCondition());
-		// You can get the list of photos in album2 by calling album2.getPhotos().
-		// You can write a method that prints the list of photos in album2.
-		System.out.println("Delete the photo ’bear.jpg’:");
-		manager.deletePhoto("bear.jpg");
+		System.out.print("album2 photos: ");
+		printPhotoManagere(album2.getPhotos());
+		System.out.print("Delete the photo ’bear.jpg’: ");
+		album2.getManager().deletePhoto("bear.jpg");
+		printPhotoManagere(album2.getPhotos());
+		System.out.println("the number of comparision: " + album2.getNbComps());
+		
+		
 	}
 
 	private static linkedlist<String> toTagsLinkedList(String tags) {
@@ -32,5 +53,30 @@ public class Test {
 		}
 		return result;
 	}
-
+	
+	private static void printAllTags(linkedlist<String> list) {
+		list.findFirst();
+		while(!list.last()) {
+			System.out.print(list.retrieve()+" , ");
+			list.findNext();
+		}
+		System.out.println(list.retrieve()+"");
+		
+	}
+	
+	private  static void printPhotoManagere(linkedlist<Photo> list ) {
+		if(list.empty()) {
+			System.out.print("list is empty");
+			System.out.println("");
+			return;
+		}
+		list.findFirst();
+		while(!list.last()) {
+			System.out.print(list.retrieve().getPath()+" , ");
+			list.findNext();
+		}
+		System.out.println(list.retrieve().getPath()+"");
+		
+	}
+	
 }
