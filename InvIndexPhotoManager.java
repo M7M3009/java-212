@@ -1,4 +1,100 @@
 package project;
 
 public class InvIndexPhotoManager {
+
+	private BST<linkedlist<Photo>> bstInverted;
+
+	public InvIndexPhotoManager() {
+
+		this.bstInverted = new BST<linkedlist<Photo>>();
+	}
+
+	public BST<linkedlist<Photo>> getPhoto() {
+		return bstInverted;
+	}
+
+	public void addPhoto(Photo p) {
+		if (bstInverted.empty()) {
+			int nodeNumber = 0;
+			linkedlist<String> tagsP = p.getTags();
+			
+			tagsP.findFirst();
+			while (!tagsP.last()) {
+				nodeNumber++;
+				tagsP.findNext();
+			}
+			nodeNumber++;
+			tagsP.findFirst();
+			
+			for (int i = 0; i < nodeNumber/2; i++) {
+				tagsP.findNext();
+			}
+			bstInverted.insert(tagsP.retrieve(), new linkedlist<Photo>());
+				
+			
+			if (tagsP.empty())
+				return;
+			tagsP.findFirst();
+			while (!tagsP.last()) {
+				if (bstInverted.findkey(tagsP.retrieve())) {
+					bstInverted.current.data.insert(p);
+				} else {
+					bstInverted.insert(tagsP.retrieve(), new linkedlist<Photo>());
+					bstInverted.current.data.insert(p);
+				}
+				
+				tagsP.findNext();
+			}
+			if (bstInverted.findkey(tagsP.retrieve())) {
+				bstInverted.current.data.insert(p);
+			} else {
+				bstInverted.insert(tagsP.retrieve(), new linkedlist<Photo>());
+				bstInverted.current.data.insert(p);
+			}
+		} else {
+			linkedlist<String> tags = p.getTags();
+			tags.findFirst();
+			while (!tags.last()) {
+				if (bstInverted.findkey(tags.retrieve())) {
+					bstInverted.current.data.insert(p);
+				} else {
+					bstInverted.insert(tags.retrieve(), new linkedlist<Photo>());
+					bstInverted.current.data.insert(p);
+				}
+				tags.findNext();
+			}
+			if (bstInverted.findkey(tags.retrieve())) {
+				bstInverted.current.data.insert(p);
+			} else {
+				bstInverted.insert(tags.retrieve(), new linkedlist<Photo>());
+				bstInverted.current.data.insert(p);
+			}
+
+		}
+	}
+
+	public void deletePhoto(String path) {
+
+		deletePhotoCheckREC(path, bstInverted.root);
+	}
+
+	private void deletePhotoCheckREC(String p, BSTNode<linkedlist<Photo>> n) {
+		if (n == null)
+			return;
+		deletePhotoCheckREC(p, n.left);
+		deletePhotoCheckREC(p, n.right);
+		linkedlist<Photo> tmpPhotos = n.data;
+		tmpPhotos.findFirst();
+		while (!tmpPhotos.last()) {
+			if (p.equalsIgnoreCase(tmpPhotos.retrieve().getPath())) {
+				tmpPhotos.remove();
+			} else {
+				tmpPhotos.findNext();
+			}
+		}
+		if (p.equalsIgnoreCase(tmpPhotos.retrieve().getPath()))
+			tmpPhotos.remove();
+		if (tmpPhotos.empty())
+			bstInverted.remove_key(n.key);
+	}
 }
