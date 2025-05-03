@@ -19,8 +19,7 @@ public class PhotoManager {
 	}
 
 	public void deletePhoto(String path) {
-		if (Mph.empty())
-			return;
+		
 
 		Mph.findFirst();
 		while (Mph.retrieve() != null) {
